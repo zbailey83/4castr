@@ -1,0 +1,1 @@
+// File deprecated. See components/Background3D.tsx and App.tsx
