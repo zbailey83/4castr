@@ -1,7 +1,19 @@
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;500;700;900&display=swap');
+
+:root {
+  /* Colors */
+  --electric-blue: #00d4ff;
+  --lime-green: #9aff00;
+  --hot-pink: #ff006e;
+  --chrome-silver: #e8e8f0;
+  --cyber-purple: #bf00ff;
+
+  /* Fonts */
+  --font-heading: 'Righteous', display;
+  --font-body: 'Inter', sans-serif;
+}
 
 body {
   margin: 0;
@@ -9,11 +21,158 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: #0c4a6e; /* sky-900 */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, #00d4ff, #9aff00, #c0c0d8, #bf00ff);
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
 }
 
 #root {
   width: 100%;
   height: 100%;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Y2K Utilities */
+.y2k-window {
+  background: rgba(255, 255, 255, 0.85);
+  /* Glassy/White */
+  border: 2px solid var(--chrome-silver);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.y2k-window-header {
+  background: linear-gradient(to right, #e8e8f0, #ffffff);
+  border-bottom: 2px solid var(--chrome-silver);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.y2k-window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.y2k-control-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.y2k-btn {
+  background: transparent;
+  border: 2px solid var(--hot-pink);
+  color: var(--hot-pink);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 4px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 4px 4px 0px var(--hot-pink);
+}
+
+.y2k-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--hot-pink);
+  background: var(--hot-pink);
+  color: white;
+}
+
+.y2k-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--hot-pink);
+}
+
+/* Effects */
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  z-index: 50;
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+  pointer-events: none;
+  z-index: 49;
+}
+
+@keyframes grain {
+
+  0%,
+  100% {
+    transform: translate(0, 0)
+  }
+
+  10% {
+    transform: translate(-5%, -10%)
+  }
+
+  20% {
+    transform: translate(-15%, 5%)
+  }
+
+  30% {
+    transform: translate(7%, -25%)
+  }
+
+  40% {
+    transform: translate(-5%, 25%)
+  }
+
+  50% {
+    transform: translate(-15%, 10%)
+  }
+
+  60% {
+    transform: translate(15%, 0%)
+  }
+
+  70% {
+    transform: translate(0%, 15%)
+  }
+
+  80% {
+    transform: translate(3%, 35%)
+  }
+
+  90% {
+    transform: translate(-10%, 10%)
+  }
 }

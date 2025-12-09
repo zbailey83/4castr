@@ -1,0 +1,125 @@
+r {
+  "name": "Y2K / Retro-Futurist Interfaces",
+  "aesthetic": "nostalgic, energetic, pixelated",
+  "category": "y2k-retro",
+  "description": "An energetic throwback to early 2000s digital optimism, combining chrome effects, iridescent gradients, and playful pixelated elements. Balances nostalgia with modern usability.",
+  "colors": {
+    "background": {
+      "type": "full-screen iridescent gradient",
+      "colors": [
+        "#00d4ff",
+        "#9aff00",
+        "#c0c0d8"
+      ],
+      "effect": "chrome silver shimmer overlay",
+      "animation": "subtle shifting (5-8s duration)"
+    },
+    "accents": {
+      "electric_blue": "#00d4ff",
+      "lime_green": "#9aff00",
+      "hot_pink": "#ff006e",
+      "chrome_silver": "#e8e8f0",
+      "cyber_purple": "#bf00ff"
+    },
+    "text": {
+      "primary": "#000000 or #1a1a1a",
+      "secondary": "#4a4a5a",
+      "highlight": "electric blue or lime green",
+      "readability": "maintained despite energetic palette"
+    }
+  },
+  "typography": {
+    "logo": {
+      "type": "chunky rounded 3D text",
+      "effects": [
+        "highlight",
+        "specular shine",
+        "chrome gradient"
+      ],
+      "weight": "800-900",
+      "size": "64-96px",
+      "extrusion": "8-12px depth"
+    },
+    "headings": {
+      "family": "playful display font (e.g., 'Righteous', 'Archivo Black', 'Bungee')",
+      "weight": "700-800",
+      "size": "32-56px",
+      "color": "#000000",
+      "effects": "optional outline or shadow"
+    },
+    "body": {
+      "family": "simple sans-serif (e.g., 'Inter', 'Arial', 'Helvetica')",
+      "weight": "400-500",
+      "size": "14-16px",
+      "line_height": "1.6",
+      "color": "#2a2a2a",
+      "note": "kept clean for readability balance"
+    }
+  },
+  "components": {
+    "windows": {
+      "style": "floating browser-style windows",
+      "appearance": "asymmetric placement",
+      "chrome": "glossy header bar with control buttons",
+      "shadow": "strong 0 8px 32px rgba(0, 0, 0, 0.15)",
+      "border": "1-2px solid accent color"
+    },
+    "buttons": {
+      "style": "neon outline",
+      "border": "2-3px solid accent color",
+      "background": "transparent or white",
+      "padding": "12-20px 24-40px",
+      "border_radius": "4-8px",
+      "hover_state": "filled with accent color + glow"
+    },
+    "icons": {
+      "style": "pixel-style or low-poly 3D",
+      "size": "24-32px",
+      "colors": "bright accent colors",
+      "aesthetic": "deliberately chunky/nostalgic"
+    }
+  },
+  "layout": {
+    "type": "desktop-optimized",
+    "structure": "asymmetric",
+    "composition": "dynamic, non-grid elements encouraged",
+    "hierarchy": "strong visual focal points",
+    "breakpoints": "1440px+ ideal viewing"
+  },
+  "effects": {
+    "overlays": {
+      "scanlines": {
+        "opacity": 0.05,
+        "height": "2px lines",
+        "spacing": "4px"
+      },
+      "glitch": {
+        "type": "subtle RGB split",
+        "intensity": "2-4px offset on interaction",
+        "frequency": "occasional (not constant)"
+      },
+      "grain": {
+        "texture": "small grain overlay",
+        "opacity": 0.03,
+        "size": "fine (2-3px)"
+      }
+    },
+    "animations": {
+      "gradient_shift": "iridescent background slowly cycles",
+      "hover_effects": "slight rotation or skew on windows",
+      "button_press": "quick scale + color fill",
+      "duration": "200-600ms",
+      "easing": "cubic-bezier(0.34, 1.56, 0.64, 1) for bounce"
+    },
+    "chrome_effect": {
+      "technique": "linear gradient with multiple color stops",
+      "reflection": "white highlight on top edge",
+      "depth": "subtle shadow underneath"
+    }
+  },
+  "characteristics": {
+    "nostalgic": "references 1998-2004 web design",
+    "energetic": "high visual energy without overwhelming",
+    "readable": "maintains usability despite busy aesthetic",
+    "optimistic": "reflects early internet enthusiasm"
+  }

@@ -5,8 +5,14 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AgentRole, AgentFindings } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-const modelId = 'gemini-2.5-flash';
+const getAI = () => {
+  const apiKey = process.env.API_KEY || '';
+  if (!apiKey) {
+    console.warn("API Key is missing!");
+  }
+  return new GoogleGenAI({ apiKey });
+};
+const modelId = 'gemini-2.0-flash-exp';
 
 // --- Schemas ---
 
@@ -82,7 +88,7 @@ export const orchestrateAgents = async (topic: string, availableRoles: string[])
   `;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAI().models.generateContent({
       model: modelId,
       contents: prompt,
       config: {
@@ -124,7 +130,7 @@ export const runAgentAnalysis = async (role: AgentRole, topic: string): Promise<
   `;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAI().models.generateContent({
       model: modelId,
       contents: prompt,
       config: {
@@ -136,14 +142,14 @@ export const runAgentAnalysis = async (role: AgentRole, topic: string): Promise<
     if (response.text) {
       let jsonStr = response.text.trim();
       if (jsonStr.startsWith('```')) {
-         jsonStr = jsonStr.replace(/^```(json)?|```$/g, '').trim();
+        jsonStr = jsonStr.replace(/^```(json)?|```$/g, '').trim();
       }
       return JSON.parse(jsonStr) as AgentFindings;
     }
-  } catch (e) {
-    console.error(`${role} analysis failed`, e);
+  } catch (e: any) {
+    console.error(`${role} analysis failed:`, e.message || e, e.stack);
   }
-  
+
   return {
     keyFindings: ["Data unavailable", "Analysis inconclusive", "Check source manually"],
     confidenceScore: 50,
@@ -152,7 +158,7 @@ export const runAgentAnalysis = async (role: AgentRole, topic: string): Promise<
   };
 };
 
-export const generateConsensus = async (topic: string, agentResults: {role: string, data: AgentFindings}[]): Promise<{probability: number, topReasons: string[], verdict: string}> => {
+export const generateConsensus = async (topic: string, agentResults: { role: string, data: AgentFindings }[]): Promise<{ probability: number, topReasons: string[], verdict: string }> => {
   const context = agentResults.map(a => `
     Agent: ${a.role}
     Prediction: ${a.data.prediction}
@@ -171,7 +177,7 @@ export const generateConsensus = async (topic: string, agentResults: {role: stri
   `;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAI().models.generateContent({
       model: modelId,
       contents: prompt,
       config: {

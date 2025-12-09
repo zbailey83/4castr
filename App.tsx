@@ -2,10 +2,9 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
-import React, { useState, useRef } from 'react';
-import { Background3D } from './components/Background3D';
+import React, { useState } from 'react';
 import { AgentCard } from './components/AgentCard';
-import { Agent, MarketAnalysis, AgentRole } from './types';
+import { Agent, MarketAnalysis } from './types';
 import { AVAILABLE_AGENTS } from './constants';
 import { orchestrateAgents, runAgentAnalysis, generateConsensus } from './services/geminiService';
 
@@ -84,21 +83,22 @@ function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-slate-900 text-white font-sans selection:bg-indigo-500/30">
+    <div className="relative w-screen h-screen overflow-hidden text-black scanlines grain">
       
-      {/* Persistent Background */}
-      <Background3D />
-
       <div className="absolute inset-0 flex flex-col items-center p-4 md:p-8 overflow-y-auto">
         
         {/* Header Area */}
         <header className="w-full max-w-5xl flex justify-between items-center mb-8 z-10">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-lg">4</div>
-            <h1 className="text-xl font-bold tracking-widest text-blue-100">4CASTR</h1>
+          <div className="flex items-center gap-2 group">
+            <div className="w-12 h-12 rounded-full border-2 border-white bg-gradient-to-br from-[var(--electric-blue)] to-[var(--cyber-purple)] flex items-center justify-center font-bold text-2xl text-white shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                4
+            </div>
+            <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,0.3)]" style={{fontFamily: 'var(--font-heading)'}}>
+                4CASTR
+            </h1>
           </div>
           {analysis.status !== 'input' && (
-             <button onClick={reset} className="text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
+             <button onClick={reset} className="y2k-btn bg-white/80 backdrop-blur-sm text-sm py-2 px-6">
                 New Analysis
              </button>
           )}
@@ -106,105 +106,131 @@ function App() {
 
         {/* --- Phase 1: Input --- */}
         {analysis.status === 'input' && (
-          <div className="flex-1 flex flex-col justify-center items-center w-full max-w-xl animate-fade-in-up">
-            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700 p-8 rounded-2xl shadow-2xl w-full">
-               <h2 className="text-2xl font-light mb-2 text-center">Prediction Markets Swarm</h2>
-               <p className="text-slate-400 text-center text-sm mb-6">Enter a Polymarket URL or a prediction question to deploy the agent swarm.</p>
+          <div className="flex-1 flex flex-col justify-center items-center w-full max-w-2xl animate-fade-in-up hover:scale-[1.01] transition-transform duration-500">
+            <div className="y2k-window w-full shadow-[12px_12px_0px_rgba(0,0,0,0.1)]">
+               <div className="y2k-window-header justify-between">
+                   <div className="flex gap-2 items-center">
+                       <span className="text-[var(--primary)] font-bold">prediction_swarm.exe</span>
+                   </div>
+                   <div className="y2k-window-controls">
+                       <div className="y2k-control-dot bg-yellow-400"></div>
+                       <div className="y2k-control-dot bg-green-400"></div>
+                       <div className="y2k-control-dot bg-red-400"></div>
+                   </div>
+               </div>
                
-               <form onSubmit={startAnalysis} className="space-y-4">
-                 <input
-                    type="text"
-                    placeholder="e.g. Will Bitcoin hit $100k in 2024?"
-                    className="w-full bg-black/40 border border-slate-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-slate-600"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                 />
-                 <button
-                    type="submit"
-                    disabled={!inputText.trim()}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all transform active:scale-[0.98]"
-                 >
-                    Deploy Agents
-                 </button>
-               </form>
-            </div>
-            
-            {/* Sample Prompts */}
-            <div className="mt-8 flex gap-2 overflow-x-auto max-w-full pb-2 no-scrollbar">
-                {['Will GTA VI release in 2025?', 'Fed Interest Rate Cuts 2024', 'Box Office: Dune 2'].map(s => (
-                    <button key={s} onClick={() => setInputText(s)} className="text-xs bg-slate-800/50 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-full whitespace-nowrap transition-colors">
-                        {s}
-                    </button>
-                ))}
+               <div className="p-8 bg-white/90 backdrop-blur-xl">
+                    <h2 className="text-3xl font-bold mb-4 text-center" style={{fontFamily: 'var(--font-heading)'}}>
+                        Prediction Swarm
+                    </h2>
+                    <p className="text-slate-600 text-center mb-8 text-lg">
+                        Enter a Polymarket URL or a prediction question to deploy the agent swarm.
+                    </p>
+                   
+                    <form onSubmit={startAnalysis} className="space-y-6">
+                     <input
+                        type="text"
+                        placeholder="e.g. Will Bitcoin hit $100k in 2024?"
+                        className="w-full bg-slate-50 border-2 border-slate-200 rounded px-4 py-4 text-lg focus:outline-none focus:border-[var(--electric-blue)] focus:shadow-[4px_4px_0px_var(--electric-blue)] transition-all placeholder:text-slate-400"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                     />
+                     <button
+                        type="submit"
+                        disabled={!inputText.trim()}
+                        className="w-full y2k-btn bg-[var(--electric-blue)] text-white border-white shadow-[4px_4px_0px_rgba(0,0,0,0.2)] hover:bg-[var(--lime-green)] hover:border-white hover:text-black font-bold text-xl py-4"
+                     >
+                        Deploy Agents
+                     </button>
+                    </form>
+
+                    {/* Sample Prompts */}
+                    <div className="mt-8 flex flex-wrap gap-3 justify-center">
+                        {['Will GTA VI release in 2025?', 'Fed Interest Rate Cuts 2024', 'Box Office: Dune 2'].map(s => (
+                            <button key={s} onClick={() => setInputText(s)} className="text-sm bg-slate-100 hover:bg-[var(--hot-pink)] hover:text-white border border-slate-300 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-300 font-medium">
+                                {s}
+                            </button>
+                        ))}
+                    </div>
+               </div>
             </div>
           </div>
         )}
 
         {/* --- Phase 2: Orchestration & Swarm --- */}
         {analysis.status !== 'input' && (
-            <div className="w-full max-w-6xl flex flex-col gap-6 animate-fade-in pb-20">
+            <div className="w-full max-w-7xl flex flex-col gap-8 animate-fade-in pb-20">
                 
                 {/* Orchestrator Card */}
-                <div className="w-full bg-slate-800/40 backdrop-blur-md border border-indigo-500/30 p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
-                    
-                    <div className="w-16 h-16 rounded-full bg-indigo-900/50 flex items-center justify-center text-3xl shrink-0 border border-indigo-500/50">
-                        {isOrchestrating ? <span className="animate-spin">⚙️</span> : <span>🧠</span>}
+                <div className="y2k-window w-full shadow-lg">
+                    <div className="y2k-window-header bg-gradient-to-r from-blue-100 to-white">
+                        <span>orchestrator_log.txt</span>
                     </div>
-                    
-                    <div className="flex-1">
-                        <div className="text-indigo-400 text-xs font-mono uppercase tracking-widest mb-1">Orchestrator</div>
-                        <h2 className="text-xl font-bold text-white mb-1">"{analysis.topic}"</h2>
-                        {isOrchestrating ? (
-                            <p className="text-slate-400 text-sm animate-pulse">Analyzing topic complexity and selecting optimal agent swarm...</p>
-                        ) : (
-                            <p className="text-slate-300 text-sm">Deployed <span className="text-white font-bold">{analysis.agents.length} specialist agents</span> to analyze market sentiment and data.</p>
-                        )}
-                    </div>
+                    <div className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 bg-white/95">
+                        
+                        <div className={`w-24 h-24 rounded-full border-4 border-[var(--electric-blue)] flex items-center justify-center text-4xl shrink-0 shadow-[4px_4px_0px_rgba(0,0,0,0.1)] ${isOrchestrating ? 'animate-spin' : ''} bg-white`}>
+                            {isOrchestrating ? <span>⚙️</span> : <span>🧠</span>}
+                        </div>
+                        
+                        <div className="flex-1 text-center md:text-left">
+                            <div className="text-[var(--hot-pink)] font-mono uppercase tracking-widest mb-2 font-bold">Current Analysis</div>
+                            <h2 className="text-3xl md:text-4xl font-black text-black mb-2" style={{fontFamily: 'var(--font-heading)'}}>"{analysis.topic}"</h2>
+                            {isOrchestrating ? (
+                                <p className="text-slate-500 text-lg animate-pulse">Analyzing topic complexity and selecting optimal agent swarm...</p>
+                            ) : (
+                                <p className="text-slate-700 text-lg">Deployed <span className="font-bold bg-[var(--lime-green)] px-2"> {analysis.agents.length} specialist agents</span> to analyze market sentiment.</p>
+                            )}
+                        </div>
 
-                    {/* Final Consensus Display */}
-                    {analysis.finalConsensus && (
-                        <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl border border-white/10 animate-fade-in-up">
-                            <div className="text-right">
-                                <div className="text-[10px] text-slate-400 uppercase tracking-widest">Consensus Probability</div>
-                                <div className={`text-3xl font-black ${analysis.finalConsensus.probability > 50 ? 'text-green-400' : 'text-red-400'}`}>
-                                    {analysis.finalConsensus.probability}% <span className="text-sm text-white">YES</span>
+                        {/* Final Consensus Display */}
+                        {analysis.finalConsensus && (
+                            <div className="flex items-center gap-4 bg-black text-white p-6 rounded border-2 border-[var(--lime-green)] animate-bounce shadow-[6px_6px_0px_var(--lime-green)]">
+                                <div className="text-right">
+                                    <div className="text-[10px] text-[var(--lime-green)] uppercase tracking-widest mb-1">Consensus Probability</div>
+                                    <div className={`text-4xl font-black ${analysis.finalConsensus.probability > 50 ? 'text-[var(--lime-green)]' : 'text-red-500'}`} style={{fontFamily: 'var(--font-heading)'}}>
+                                        {analysis.finalConsensus.probability}% <span className="text-lg text-white">YES</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
 
                 {/* Agent Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {analysis.agents.map((agent) => (
-                        <div key={agent.id} className="animate-fade-in-up">
+                        <div key={agent.id} className="animate-fade-in-up" style={{animationDelay: `${parseInt(agent.id) * 100}ms`}}>
                             <AgentCard agent={agent} />
                         </div>
                     ))}
                     {/* Placeholder loading skeletons if orchestrating */}
                     {isOrchestrating && [1,2,3].map(i => (
-                         <div key={i} className="h-[200px] rounded-xl border border-slate-800 bg-slate-900/30 animate-pulse"></div>
+                         <div key={i} className="h-[240px] rounded-lg border-2 border-slate-200 bg-white/50 animate-pulse"></div>
                     ))}
                 </div>
 
                 {/* Final Verdict Section */}
                 {analysis.finalConsensus && (
-                    <div className="w-full bg-gradient-to-br from-slate-900 to-black border border-slate-700 p-6 rounded-2xl mt-4 animate-fade-in-up shadow-2xl">
-                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <span>⚖️</span> Swarm Verdict
-                        </h3>
-                        <p className="text-lg text-slate-200 mb-6 font-light leading-relaxed border-l-4 border-indigo-500 pl-4">
-                            {analysis.finalConsensus.verdict}
-                        </p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {analysis.finalConsensus.topReasons.map((reason, i) => (
-                                <div key={i} className="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50 text-sm text-slate-300">
-                                    <span className="text-indigo-400 font-bold mr-2">0{i+1}</span>
-                                    {reason}
-                                </div>
-                            ))}
+                    <div className="y2k-window w-full shadow-2xl mt-4 animate-fade-in-up">
+                        <div className="y2k-window-header bg-[var(--hot-pink)] text-white">
+                            <span>VERDICT_FINAL.DOC</span>
+                        </div>
+                        <div className="bg-white p-8">
+                            <h3 className="text-2xl font-bold text-black mb-6 flex items-center gap-3" style={{fontFamily: 'var(--font-heading)'}}>
+                                <span>⚖️</span> Swarm Verdict
+                            </h3>
+                            <p className="text-xl text-black mb-8 font-medium leading-relaxed border-l-8 border-[var(--cyber-purple)] pl-6 bg-slate-50 py-4">
+                                {analysis.finalConsensus.verdict}
+                            </p>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {analysis.finalConsensus.topReasons.map((reason, i) => (
+                                    <div key={i} className="bg-slate-50 p-4 rounded border-2 border-slate-100 hover:border-[var(--electric-blue)] transition-colors group">
+                                        <span className="text-[var(--electric-blue)] font-black text-2xl mr-2 group-hover:scale-110 inline-block transition-transform">0{i+1}</span>
+                                        <span className="font-medium text-slate-800">{reason}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}
