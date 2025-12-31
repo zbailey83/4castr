@@ -209,26 +209,6 @@ function App() {
       
       <div className="absolute inset-0 flex flex-col items-center p-4 md:p-8 overflow-y-auto">
         
-        {/* Dark Mode Toggle */}
-        <div className="fixed top-4 right-4 z-50">
-          <button
-            onClick={toggleDarkMode}
-            className="y2k-btn bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-slate-700 dark:text-slate-200 border-2 border-slate-300 dark:border-slate-600 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] p-3 rounded-full"
-            style={{
-              transition: 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1) rotate(12deg)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
-            }}
-            aria-label="Toggle dark mode"
-          >
-            {isDarkMode ? '☀️' : '🌙'}
-          </button>
-        </div>
-        
         {/* Header Area */}
         <header className="w-full max-w-5xl flex justify-between items-center mb-8 z-10 animate-fade-in-up">
           <div className="flex items-center gap-2 group">
@@ -274,7 +254,20 @@ function App() {
                    <div className="flex gap-2 items-center">
                        <span className="text-slate-700 dark:text-slate-300 font-bold">prediction_swarm.exe</span>
                    </div>
-                   <div className="y2k-window-controls">
+                   <div 
+                     className="y2k-window-controls cursor-pointer"
+                     onClick={toggleDarkMode}
+                     title="Click to toggle dark mode"
+                     style={{
+                       transition: 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
+                     }}
+                     onMouseEnter={(e) => {
+                       e.currentTarget.style.transform = 'scale(1.1)';
+                     }}
+                     onMouseLeave={(e) => {
+                       e.currentTarget.style.transform = 'scale(1)';
+                     }}
+                   >
                        <div className="y2k-control-dot bg-yellow-400"></div>
                        <div className="y2k-control-dot bg-green-400"></div>
                        <div className="y2k-control-dot bg-red-400"></div>
@@ -414,8 +407,28 @@ function App() {
                 {/* Final Verdict Section */}
                 {analysis.finalConsensus && (
                     <div className="y2k-window w-full shadow-2xl mt-4 animate-fade-in-up">
-                        <div className="y2k-window-header bg-[var(--hot-pink)] text-white">
+                        <div className="y2k-window-header bg-[var(--hot-pink)] text-white flex justify-between items-center">
                             <span>VERDICT_FINAL.DOC</span>
+                            <button
+                                onClick={() => {
+                                    const shareText = `🎯 Prediction: "${analysis.topic}"\n\n📊 Consensus: ${analysis.finalConsensus.probability}% YES\n\n${analysis.finalConsensus.verdict}\n\nPowered by @4CASTR AI Swarm`;
+                                    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(window.location.href)}`;
+                                    window.open(shareUrl, '_blank', 'width=550,height=420');
+                                }}
+                                className="y2k-btn bg-white/20 hover:bg-white/30 text-white border-white/50 hover:border-white text-sm py-1.5 px-4 flex items-center gap-2"
+                                style={{
+                                    transition: 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1), box-shadow 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                }}
+                            >
+                                <span>🐦</span>
+                                <span>Share on X</span>
+                            </button>
                         </div>
                         <div className="bg-white dark:bg-slate-800 p-8">
                             <h3 className="text-2xl font-bold text-black dark:text-white mb-6 flex items-center gap-3" style={{fontFamily: 'var(--font-heading)'}}>
