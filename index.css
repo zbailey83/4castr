@@ -25,6 +25,13 @@ body {
   background: linear-gradient(135deg, #00d4ff, #9aff00, #c0c0d8, #bf00ff);
   background-size: 400% 400%;
   animation: gradient-shift 8s ease infinite;
+  transition: background 0.3s ease;
+}
+
+body.dark,
+.dark body {
+  background: linear-gradient(135deg, #001a1f, #1a2e00, #1a1a2e, #2e0033);
+  background-size: 400% 400%;
 }
 
 #root {
@@ -55,7 +62,15 @@ body {
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  transition: box-shadow 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1);
+  transition: box-shadow 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.dark .y2k-window {
+  background: rgba(30, 30, 40, 0.9);
+  border-color: rgba(200, 200, 220, 0.3);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.5);
 }
 
 .y2k-window-header {
@@ -68,6 +83,13 @@ body {
   font-family: var(--font-heading);
   text-transform: uppercase;
   letter-spacing: 1px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.dark .y2k-window-header {
+  background: linear-gradient(to right, #2a2a3a, #1e1e2e);
+  border-bottom-color: rgba(200, 200, 220, 0.3);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .y2k-window-controls {
