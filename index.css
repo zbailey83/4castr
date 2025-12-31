@@ -55,6 +55,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   position: relative;
+  transition: box-shadow 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1);
 }
 
 .y2k-window-header {
@@ -89,8 +90,14 @@ body {
   text-transform: uppercase;
   padding: 10px 24px;
   border-radius: 4px;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 500ms linear(0, 0.3892, 0.921, 1.1515, 1.1295, 1.037, 0.9817, 0.9751, 0.9892, 1.0011, 1, 1.0026, 1.0003, 0.9993, 0.9994, 0.9998, 1), 
+              box-shadow 500ms linear(0, 0.3892, 0.921, 1.1515, 1.1295, 1.037, 0.9817, 0.9751, 0.9892, 1.0011, 1, 1.0026, 1.0003, 0.9993, 0.9994, 0.9998, 1),
+              background-color 300ms ease-out,
+              color 300ms ease-out;
   box-shadow: 4px 4px 0px var(--hot-pink);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .y2k-btn:hover {
@@ -103,6 +110,7 @@ body {
 .y2k-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 0px 0px 0px var(--hot-pink);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
 }
 
 /* Effects */

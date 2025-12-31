@@ -12,7 +12,7 @@ interface AgentCardProps {
 export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // 3D Tilt Effect
+  // 3D Tilt Effect with smooth spring animation
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current || agent.status === 'idle') return;
     const { left, top, width, height } = cardRef.current.getBoundingClientRect();
@@ -22,7 +22,15 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
   };
 
   const handleMouseLeave = () => {
-    if (cardRef.current) cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+    if (cardRef.current) {
+      cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (cardRef.current && agent.status !== 'idle') {
+      cardRef.current.style.transition = 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)';
+    }
   };
 
   const getConfidenceColor = (score: number) => {
@@ -45,11 +53,15 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
       className={`
-        y2k-window transition-all duration-300
+        y2k-window
         ${isLoading ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : ''}
         flex flex-col h-full min-h-[300px] bg-white
       `}
+      style={{
+        transition: 'border-color 300ms ease-out, box-shadow 300ms ease-out',
+      }}
     >
       {/* Header */}
       <div className="y2k-window-header justify-between bg-slate-100">
@@ -66,7 +78,18 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
       {/* Content Area */}
       <div className="p-4 flex flex-col h-full relative">
         <div className="flex items-start gap-3 mb-4 border-b-2 border-slate-100 pb-4">
-          <div className={`w-12 h-12 rounded border-2 border-black flex items-center justify-center text-2xl shadow-[4px_4px_0px_rgba(0,0,0,0.1)] bg-white shrink-0`}>
+          <div 
+            className={`w-12 h-12 rounded border-2 border-black flex items-center justify-center text-2xl shadow-[4px_4px_0px_rgba(0,0,0,0.1)] bg-white shrink-0`}
+            style={{
+              transition: 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.15) rotate(5deg)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+            }}
+          >
             {agent.icon}
           </div>
           <div className="min-w-0">
@@ -103,10 +126,13 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
                     {agent.findings.confidenceScore}%
                   </span>
                 </div>
-                <div className="w-full h-3 bg-slate-200 border border-slate-300">
+                <div className="w-full h-3 bg-slate-200 border border-slate-300 overflow-hidden rounded">
                   <div
-                    className={`h-full ${getConfidenceColor(agent.findings.confidenceScore)} transition-all duration-1000 ease-out relative`}
-                    style={{ width: `${agent.findings.confidenceScore}%` }}
+                    className={`h-full ${getConfidenceColor(agent.findings.confidenceScore)} relative`}
+                    style={{ 
+                      width: `${agent.findings.confidenceScore}%`,
+                      transition: 'width 1000ms linear(0, 0.7973, 1.2533, 1.0429, 0.9361, 0.9912, 1.0161, 1.0017, 0.996, 0.9997, 1, 1, 1)',
+                    }}
                   >
                     <div className="absolute inset-0 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhZWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==')] opacity-20"></div>
                   </div>
@@ -116,8 +142,32 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
               {/* Key Findings */}
               <div className="space-y-2 flex-1">
                 {agent.findings.keyFindings.map((f, i) => (
-                  <div key={i} className="text-[11px] leading-relaxed p-2 bg-slate-50 border border-slate-200 font-medium">
-                    <span className="mr-1 text-[var(--cyber-purple)]">►</span> {f}
+                  <div 
+                    key={i} 
+                    className="text-[11px] leading-relaxed p-2 bg-slate-50 border border-slate-200 font-medium cursor-default"
+                    style={{
+                      transition: 'background-color 300ms ease-out, border-color 300ms ease-out, transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
+                      animationDelay: `${i * 50}ms`,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgb(241 245 249)';
+                      e.currentTarget.style.borderColor = 'var(--electric-blue)';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '';
+                      e.currentTarget.style.borderColor = '';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                  >
+                    <span 
+                      className="mr-1 text-[var(--cyber-purple)] inline-block"
+                      style={{
+                        transition: 'transform 450ms linear(0, 0.2348, 0.6075, 0.8763, 1.0076, 1.0451, 1.0389, 1.0217, 1.0079, 1.0006, 0.9981, 0.9981, 0.9988, 0.9995, 1)',
+                      }}
+                    >
+                      ►
+                    </span> {f}
                   </div>
                 ))}
               </div>
